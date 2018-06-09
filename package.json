@@ -1,0 +1,52 @@
+{
+  "name": "react-starter",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://simplefrontend.github.io/hello-date-fns/",
+  "scripts": {
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test --env=jsdom",
+    "testCI": "CI=true yarn test",
+    "eject": "react-scripts eject",
+    "format": "cross-env BABEL_ENV=development prettier --write \"src/**/*\"",
+    "deploy": "yarn build && gh-pages -d build"
+  },
+  "dependencies": {
+    "antd": "^3.2.2",
+    "date-fns": "^1.29.0",
+    "emotion": "^9.1.3",
+    "immutable": "^3.8.2",
+    "prop-types": "^15.6.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-emotion": "^9.1.3",
+    "react-scripts": "1.1.1"
+  },
+  "devDependencies": {
+    "babel-plugin-import": "^1.6.5",
+    "cross-env": "^5.1.3",
+    "eslint": "^4.19.1",
+    "eslint-config-react-airbnb-prettier": "0.0.4",
+    "gh-pages": "^1.2.0",
+    "husky": "^0.15.0-rc.13",
+    "less": "^2.3.1",
+    "less-loader": "^4.0.5",
+    "lint-staged": "^6.1.0",
+    "prettier": "^1.12.1",
+    "react-app-rewire-less": "^2.1.0",
+    "react-app-rewired": "^1.4.1",
+    "webpack": "^3.11.0"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && yarn testCI"
+    }
+  },
+  "lint-staged": {
+    "**/*.{js, jsx,json,css,md}": [
+      "cross-env BABEL_ENV=development prettier --write",
+      "git add"
+    ]
+  }
+}
