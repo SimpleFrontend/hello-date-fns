@@ -17,6 +17,8 @@ type Record = {
 type Props = { email: string };
 type State = { data: Record[] };
 
+export const DataContext = React.createContext([]);
+
 class DataProvider extends React.Component<Props, State> {
   state = {
     data: [],
@@ -33,7 +35,7 @@ class DataProvider extends React.Component<Props, State> {
   render() {
     const { data } = this.state;
     const { children } = this.props;
-    return data && children(data);
+    return <DataContext.Provider value={data}>{children}</DataContext.Provider>;
   }
 }
 
