@@ -1,29 +1,57 @@
 import React from 'react';
-import { Timeline, Card } from 'antd';
+import { Timeline, Card, Divider, Tag } from 'antd';
+import { css } from 'react-emotion';
 
-import DataProvider, { DataContext } from './DataProvider';
+import Avatar from './Avatar';
+import { DataProvider, DataComsumer } from './DataContext';
+import { getLocalTime, isInTime } from './utils';
+
+const cardClassName = css({ maxWidth: 1024, margin: '40px auto' });
 
 const App = () => (
   <DataProvider email="huang.m.chang@gmail.com">
-    <DataContext.Consumer>
-      {records => (
-        <Card>
-          <Timeline>
-            {records.map(record => (
-              <Timeline.Item key={record.timeStamp}>
-                <ul>
-                  <li>{record.mail}</li>
-                  <li>{record.stage}</li>
-                  <li>{record.tag}</li>
-                  <li>{record.timeStamp}</li>
-                  <li>{record.url}</li>
-                </ul>
-              </Timeline.Item>
-            ))}
-          </Timeline>
-        </Card>
-      )}
-    </DataContext.Consumer>
+    <DataComsumer>
+      {records => {
+        const mail = records.length > 0 && records[0].mail;
+        const avatarSize = 60;
+        return (
+          <Card className={cardClassName}>
+            <Card.Meta
+              avatar={<Avatar size={avatarSize} />}
+              title={mail}
+              description="Your records for the front-end challenges"
+            />
+            <Divider />
+            <Timeline>
+              {records.map(record => {
+                const { stage, tag, url, timeStamp } = record;
+                const { date, time } = getLocalTime(timeStamp);
+                const submissionTime = `${date} ${time}`;
+                const status = isInTime({ timeStamp, stage })
+                  ? 'success'
+                  : 'failure';
+                const tags = tag.split(',').map(item => item.trim());
+                const color = status === 'success' ? 'green' : 'red';
+                return (
+                  <Timeline.Item key={record.timeStamp} color={color}>
+                    <h4>{`Stage ${stage} - ${status}`}</h4>
+                    {tags.map(tagElement => <Tag>{tagElement}</Tag>)}
+                    <ul>
+                      <li>{submissionTime}</li>
+                      <li>
+                        <a href={url} target="_blank">
+                          {url}
+                        </a>
+                      </li>
+                    </ul>
+                  </Timeline.Item>
+                );
+              })}
+            </Timeline>
+          </Card>
+        );
+      }}
+    </DataComsumer>
   </DataProvider>
 );
 
