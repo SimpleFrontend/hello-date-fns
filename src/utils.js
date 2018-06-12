@@ -1,5 +1,7 @@
 import * as moment from 'moment-timezone';
 
+const TIMEZONE = 'Asia/Taipei';
+
 const STAGES = {
   1: { start: '2018-06-04', end: '2018-06-11' },
   2: { start: '2018-06-11', end: '2018-06-18' },
@@ -12,7 +14,8 @@ const STAGES = {
   9: { start: '2018-07-30', end: '2018-08-06' },
 };
 
-const convertToMoment = date => moment(`${date} 12:00`, 'YYYY-MM-DD HH:mm');
+const convertToMoment = (date, timezone = TIMEZONE) =>
+  moment.tz(`${date} 12:00`, timezone);
 
 export const isInTime = ({ timeStamp, stage }) => {
   const submission = moment(timeStamp);
