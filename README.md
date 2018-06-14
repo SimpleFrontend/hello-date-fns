@@ -1,13 +1,1 @@
-This project was a clean starter project bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app), providing basic setup of linting and [prettier](https://github.com/prettier/prettier) using the style guide from [airbnb](https://github.com/airbnb/javascript)
-
-# Customization
-
-My preferred settings:
-
-- Singule quotation mark
-- 4 spaces indentation
-
-# Linting
-
-- eslint
-- markdownlint
+This project was a simple app that allows the participatns of the [Front-end Challenge](https://www.facebook.com/groups/173311386703334/) to check their records. I used [moment-timezone](https://momentjs.com/timezone/) to calculate the timestamp of the submission to determine if the submission is made in time.

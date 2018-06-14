@@ -2,7 +2,7 @@ import * as moment from 'moment-timezone';
 
 const TIMEZONE = 'Asia/Taipei';
 
-const STAGES = {
+const PERIODS = {
   1: { start: '2018-06-04', end: '2018-06-11' },
   2: { start: '2018-06-11', end: '2018-06-18' },
   3: { start: '2018-06-18', end: '2018-06-25' },
@@ -17,10 +17,24 @@ const STAGES = {
 const convertToMoment = (date, timezone = TIMEZONE) =>
   moment.tz(`${date} 12:00`, timezone);
 
+export const getPeriod = ({ stage }) => {
+  const start = convertToMoment(PERIODS[stage].start);
+  const end = convertToMoment(PERIODS[stage].end);
+  return { start, end };
+};
+
+export const getPeriods = (periods = PERIODS) =>
+  Object.entries(periods)
+    .map(([key, { start, end }]) => ({
+      key,
+      start: convertToMoment(start),
+      end: convertToMoment(end),
+    }))
+    .sort((a, b) => +a.key - +b.key);
+
 export const isInTime = ({ timeStamp, stage }) => {
   const submission = moment(timeStamp);
-  const start = convertToMoment(STAGES[stage].start);
-  const end = convertToMoment(STAGES[stage].end);
+  const { start, end } = getPeriod({ stage });
   return submission <= end && submission > start;
 };
 
