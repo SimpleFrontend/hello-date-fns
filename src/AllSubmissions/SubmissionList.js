@@ -6,7 +6,7 @@ import { Card, Spin, List, Avatar, Tag } from 'antd';
 import { getLocalTime } from '../timeUtils';
 import ErrorMessage from '../components/ErrorMessage';
 
-const cardClassName = css({ marginTop: 20 });
+const cardClassName = css({ marginTop: 20, marginBottom: 20 });
 
 const getSubmissionTimeString = timeStamp => {
   const { date, time } = getLocalTime({ timeStamp });

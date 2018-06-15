@@ -16,8 +16,13 @@ class PersonalRecords extends React.Component {
         <EmailForm onSubmit={onSubmit} />
         <RecordsProvider email={email}>
           <RecordsComsumer>
-            {({ records, error }) => (
-              <RecordList records={records} email={email} error={error} />
+            {({ records, error, isLoading }) => (
+              <RecordList
+                records={records}
+                email={email}
+                error={error}
+                isLoading={isLoading}
+              />
             )}
           </RecordsComsumer>
         </RecordsProvider>

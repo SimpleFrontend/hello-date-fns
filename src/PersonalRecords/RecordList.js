@@ -8,7 +8,7 @@ import Avatar from '../components/Avatar';
 import { getLocalTime, isInTime, getPeriods } from '../timeUtils';
 import ErrorMessage from '../components/ErrorMessage';
 
-const cardClassName = css({ marginTop: 20 });
+const cardClassName = css({ marginTop: 20, marginBottom: 20 });
 const avatarSize = 60;
 const periods = getPeriods();
 const getPeriodDate = momentObject => momentObject.format().split('T')[0];
@@ -94,11 +94,23 @@ const spinClassName = css({ width: '100%' });
 const RecordList = ({ records, email, error, isLoading }) => {
   const hasRecords = !error && records && records.length > 0;
   return (
-    <Card className={cardClassName}>
-      {hasRecords && <Content records={records} email={email} />}
-      {isLoading && <Spin className={spinClassName} />}
-      {error && <ErrorMessage />}
-    </Card>
+    <Fragment>
+      {hasRecords && (
+        <Card className={cardClassName}>
+          <Content records={records} email={email} />
+        </Card>
+      )}
+      {isLoading && (
+        <Card className={cardClassName}>
+          <Spin className={spinClassName} />
+        </Card>
+      )}
+      {error && (
+        <Card className={cardClassName}>
+          <ErrorMessage />
+        </Card>
+      )}
+    </Fragment>
   );
 };
 

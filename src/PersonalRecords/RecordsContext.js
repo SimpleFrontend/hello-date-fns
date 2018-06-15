@@ -24,9 +24,6 @@ export class RecordsProvider extends React.Component<Props, State> {
     error: null,
     isLoading: false,
   };
-  componentDidMount() {
-    this.getRecords();
-  }
   componentDidUpdate(preProps) {
     if (preProps.email !== this.props.email) {
       this.getRecords();
