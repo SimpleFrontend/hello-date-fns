@@ -1,12 +1,11 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import styled, { css } from 'react-emotion';
 import * as moment from 'moment-timezone';
 
-import { Timeline, Card, Divider, Tag, Spin, Row as AntRow } from 'antd';
+import { Timeline, Card, Divider, Tag, Row as AntRow } from 'antd';
 import Avatar from '../components/Avatar';
 
 import { getLocalTime, isInTime, getPeriods } from '../timeUtils';
-import ErrorMessage from '../components/ErrorMessage';
 
 const cardClassName = css({ marginTop: 20, marginBottom: 20 });
 const avatarSize = 60;
@@ -35,7 +34,7 @@ const getRecordItem = ({ record, period }) => {
   const status = isInTime({ timeStamp, stage }) ? 'success' : 'failure';
   const tags = tag.split(',').map(item => item.trim());
   return (
-    <Timeline.Item key={period.start.format('x')} color={STATUS_COLORS[status]}>
+    <Timeline.Item key={timeStamp} color={STATUS_COLORS[status]}>
       <h4>{`Stage ${stage}: ${getPeriodsText(period)}`}</h4>
       <Row>
         <Tag color={STATUS_COLORS[status]}> {status} </Tag>
@@ -71,50 +70,34 @@ const getNoneRecordItem = ({ period }) => {
   );
 };
 
-const Content = ({ records, email }) => (
-  <Fragment>
-    <Card.Meta
-      avatar={<Avatar size={avatarSize} />}
-      title={email}
-      description="Your records for the front-end challenges"
-    />
-    <Divider />
-    <Timeline>
-      {records &&
-        periods.map(period => {
-          const foundRecords = records.filter(
-            record => +record.stage === +period.key,
-          );
-          return foundRecords.length > 0
-            ? foundRecords.map(record => getRecordItem({ period, record }))
-            : getNoneRecordItem({ period });
-        })}
-    </Timeline>
-  </Fragment>
+const Content = ({ records }) => (
+  <Timeline>
+    {records &&
+      periods.map(period => {
+        const foundRecords = records.filter(
+          record => +record.stage === +period.key,
+        );
+        return foundRecords.length > 0
+          ? foundRecords.map(record => getRecordItem({ period, record }))
+          : getNoneRecordItem({ period });
+      })}
+  </Timeline>
 );
 
-const spinClassName = css({ width: '100%' });
-
-const RecordList = ({ records, email, error, isLoading }) => {
-  const hasRecords = !error && records && records.length > 0;
+const RecordList = ({ signUpInfo, signUpTotal, records, email }) => {
+  const { nickName, timeStamp } = signUpInfo;
   return (
-    <Fragment>
-      {hasRecords && (
-        <Card className={cardClassName}>
-          <Content records={records} email={email} />
-        </Card>
-      )}
-      {isLoading && (
-        <Card className={cardClassName}>
-          <Spin className={spinClassName} />
-        </Card>
-      )}
-      {error && (
-        <Card className={cardClassName}>
-          <ErrorMessage />
-        </Card>
-      )}
-    </Fragment>
+    <Card className={cardClassName}>
+      <Card.Meta
+        avatar={<Avatar size={avatarSize} />}
+        title={`${nickName} (${email})`}
+        description={`signed up at ${getSubmissionTimeString(
+          timeStamp,
+        )}. In total, there are ${signUpTotal} participants.`}
+      />
+      <Divider />
+      <Content records={records} email={email} />
+    </Card>
   );
 };
 
