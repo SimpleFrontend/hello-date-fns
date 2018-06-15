@@ -3,12 +3,12 @@ import { css } from 'react-emotion';
 import * as moment from 'moment-timezone';
 
 import { Timeline, Card, Divider, Tag, Spin, Row } from 'antd';
-import Avatar from './Avatar';
+import Avatar from '../components/Avatar';
 
-import { getLocalTime, isInTime, getPeriods } from './utils';
-import ErrorMessage from './ErrorMessage';
+import { getLocalTime, isInTime, getPeriods } from '../timeUtils';
+import ErrorMessage from '../components/ErrorMessage';
 
-const cardClassName = css({ maxWidth: 1024, margin: '40px auto' });
+const cardClassName = css({ marginTop: 20 });
 const avatarSize = 60;
 const periods = getPeriods();
 const getPeriodDate = momentObject => momentObject.format().split('T')[0];
@@ -91,9 +91,8 @@ const Content = ({ records, email }) => (
 
 const spinClassName = css({ width: '100%' });
 
-const Results = ({ records, email, error }) => {
+const RecordList = ({ records, email, error, isLoading }) => {
   const hasRecords = !error && records && records.length > 0;
-  const isLoading = !error && email && !hasRecords;
   return (
     <Card className={cardClassName}>
       {hasRecords && <Content records={records} email={email} />}
@@ -103,4 +102,4 @@ const Results = ({ records, email, error }) => {
   );
 };
 
-export default Results;
+export default RecordList;

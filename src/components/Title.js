@@ -8,7 +8,7 @@ const titleClassName = css({
 
 const Title = () => (
   <div className={titleClassName}>
-    <h1>Check Your Records of Front-end Challenges</h1>
+    <h1>Front-end Challenges</h1>
   </div>
 );
 
