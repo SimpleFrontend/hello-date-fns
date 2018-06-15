@@ -18,19 +18,27 @@ const App = () => (
     <Card title="Front-end Challenges" className={cardClassName}>
       <Menu mode="horizontal">
         <Menu.Item key="personal-record">
-          <Link to="/">
+          <Link to={`${process.env.PUBLIC_URL}/`}>
             <Icon type="user" />Personal Record
           </Link>
         </Menu.Item>
         <Menu.Item key="all-subbmissions">
-          <Link to="/all-submissions">
+          <Link to={`${process.env.PUBLIC_URL}/all-submissions`}>
             <Icon type="profile" />All Submissions
           </Link>
         </Menu.Item>
       </Menu>
       <Switch>
-        <Route exact path="/" component={PersonalRecords} />
-        <Route exact path="/all-submissions" component={AllSubmissions} />
+        <Route
+          exact
+          path={`${process.env.PUBLIC_URL}/`}
+          component={PersonalRecords}
+        />
+        <Route
+          exact
+          path={`${process.env.PUBLIC_URL}/all-submissions`}
+          component={AllSubmissions}
+        />
         <Route component={NoPageFound} />
       </Switch>
     </Card>

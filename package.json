@@ -2,7 +2,7 @@
   "name": "hello-momentjs",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://simplefrontend.github.io/hello-momentjs/",
+  "homepage": "https://simplefrontend.github.io/hello-momentjs",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
