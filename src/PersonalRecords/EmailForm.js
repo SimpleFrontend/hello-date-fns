@@ -36,7 +36,7 @@ class EmailForm extends React.Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const { email } = values;
-        this.props.onSubmit(email);
+        this.props.onSubmit(email.trim().toLowerCase());
       }
     });
   };
