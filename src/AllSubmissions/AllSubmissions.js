@@ -2,7 +2,6 @@ import React, { Fragment } from 'react';
 import { SubmissionsProvider, SubmissionsComsumer } from './SubmissionsContext';
 import FilterForm from './FilterForm';
 import SubmissionList from './SubmissionList';
-// import { TagsComsumer, TagsProvider } from './TagsContext';
 
 class AllSubmissions extends React.Component {
   state = { stage: '', tag: '' };

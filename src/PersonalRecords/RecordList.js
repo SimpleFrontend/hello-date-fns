@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react';
-import { css } from 'react-emotion';
+import styled, { css } from 'react-emotion';
 import * as moment from 'moment-timezone';
 
-import { Timeline, Card, Divider, Tag, Spin, Row } from 'antd';
+import { Timeline, Card, Divider, Tag, Spin, Row as AntRow } from 'antd';
 import Avatar from '../components/Avatar';
 
 import { getLocalTime, isInTime, getPeriods } from '../timeUtils';
@@ -22,13 +22,15 @@ const STATUS_COLORS = {
   locked: '#444',
 };
 
+const Row = styled(AntRow)({ marginBottom: 4 });
+
 const getSubmissionTimeString = timeStamp => {
   const { date, time } = getLocalTime({ timeStamp });
   return `${date} ${time}`;
 };
 
-const getRecordItem = ({ foundRecord, period }) => {
-  const { stage, tag, url, timeStamp, open } = foundRecord;
+const getRecordItem = ({ record, period }) => {
+  const { stage, tag, url, timeStamp, open } = record;
   const submissionTime = getSubmissionTimeString(timeStamp);
   const status = isInTime({ timeStamp, stage }) ? 'success' : 'failure';
   const tags = tag.split(',').map(item => item.trim());
@@ -41,12 +43,14 @@ const getRecordItem = ({ foundRecord, period }) => {
       </Row>
       <Row>
         {tags.map(tagElement => <Tag key={tagElement}>{tagElement}</Tag>)}
-        {open && (
+      </Row>
+      {open && (
+        <Row>
           <a href={url} target="_blank">
             {url}
           </a>
-        )}
-      </Row>
+        </Row>
+      )}
     </Timeline.Item>
   );
 };
@@ -78,11 +82,11 @@ const Content = ({ records, email }) => (
     <Timeline>
       {records &&
         periods.map(period => {
-          const foundRecord = records.find(
+          const foundRecords = records.filter(
             record => +record.stage === +period.key,
           );
-          return foundRecord
-            ? getRecordItem({ period, foundRecord })
+          return foundRecords.length > 0
+            ? foundRecords.map(record => getRecordItem({ period, record }))
             : getNoneRecordItem({ period });
         })}
     </Timeline>
