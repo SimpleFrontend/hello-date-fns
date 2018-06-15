@@ -3,7 +3,10 @@
 import React from 'react';
 import axios from 'axios';
 
-import { ALL_SUBMISSIONS_BASE_URL as SUBBMISSION_URL } from '../appConfig';
+import {
+  ALL_SUBMISSIONS_BASE_URL as SUBBMISSION_URL,
+  ALL_TAGS_BASE_URL as TAG_URL,
+} from '../appConfig';
 
 export type Submission = {
   tag: string,
@@ -13,7 +16,12 @@ export type Submission = {
 };
 
 type Props = { stage: number, tag: string };
-type State = { submissions: Submission[], error: Error, isLoading: boolean };
+type State = {
+  submissions: Submission[],
+  error: Error,
+  isLoading: boolean,
+  allTags: string[],
+};
 
 const SubmissionsContext = React.createContext([]);
 
@@ -26,10 +34,12 @@ export class SubmissionsProvider extends React.Component<Props, State> {
   };
   state = {
     submissions: [],
+    allTags: [],
     error: null,
     isLoading: false,
   };
   componentDidMount() {
+    this.getTags();
     this.getSubmissions();
   }
   componentDidUpdate(preProps) {
@@ -67,11 +77,35 @@ export class SubmissionsProvider extends React.Component<Props, State> {
     }
   };
 
+  getTags = async () => {
+    this.setState({ isLoading: true });
+    try {
+      const { data } = await axios.get(TAG_URL);
+      this.setState(state => ({
+        ...state,
+        allTags: data,
+        error: null,
+        isLoading: false,
+      }));
+    } catch (error) {
+      // eslint-disable-next-line
+      console.error('The API does not seem to work.', error);
+      this.setState(state => ({
+        ...state,
+        allTags: [],
+        error,
+        isLoading: false,
+      }));
+    }
+  };
+
   render() {
-    const { submissions, error, isLoading } = this.state;
+    const { submissions, error, isLoading, allTags } = this.state;
     const { children } = this.props;
     return (
-      <SubmissionsContext.Provider value={{ submissions, error, isLoading }}>
+      <SubmissionsContext.Provider
+        value={{ submissions, error, isLoading, allTags }}
+      >
         {children}
       </SubmissionsContext.Provider>
     );
