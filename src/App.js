@@ -19,7 +19,7 @@ const App = () => (
       <Menu mode="horizontal">
         <Menu.Item key="personal-record">
           <Link to={`${process.env.PUBLIC_URL}/`}>
-            <Icon type="user" />Personal Record
+            <Icon type="user" />Personal Records
           </Link>
         </Menu.Item>
         <Menu.Item key="all-subbmissions">

@@ -61,11 +61,17 @@ class EmailForm extends React.Component {
             <FormItem
               className={FullWidthClassName}
               validateStatus={emailError ? 'error' : ''}
-              help={emailError || ''}
             >
               {getFieldDecorator('email', {
                 rules: [
-                  { required: true, message: 'Please input your email!' },
+                  {
+                    required: true,
+                    message: 'Please provide your email when you signed up.',
+                  },
+                  {
+                    type: 'email',
+                    message: `Please provide a valid email.`,
+                  },
                 ],
               })(
                 <Input
