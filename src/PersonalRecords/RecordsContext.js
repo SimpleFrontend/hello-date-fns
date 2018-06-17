@@ -49,6 +49,7 @@ export class RecordsProvider extends React.Component<Props, State> {
   state = {
     records: null,
     signUpInfo: null,
+    signUpTotal: null,
     error: null,
     isLoading: false,
   };
@@ -92,12 +93,9 @@ export class RecordsProvider extends React.Component<Props, State> {
   };
 
   render() {
-    const { signUpInfo, signUpTotal, records, error, isLoading } = this.state;
     const { children } = this.props;
     return (
-      <RecordsContext.Provider
-        value={{ signUpInfo, signUpTotal, records, error, isLoading }}
-      >
+      <RecordsContext.Provider value={{ ...this.state }}>
         {children}
       </RecordsContext.Provider>
     );
